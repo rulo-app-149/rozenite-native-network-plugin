@@ -1,0 +1,435 @@
+/*
+ * Rozenite palette: near-black surfaces, neutral greys, hairline borders and a
+ * single crimson accent (see docs/DESIGN.md in callstackincubator/rozenite).
+ */
+:root {
+  --nn-bg: #0a0a0a;
+  --nn-surface: #111111;
+  --nn-surface-2: #161616;
+  --nn-border: #1f1f1f;
+  --nn-text: #ffffff;
+  --nn-muted: #a3a3a3;
+  --nn-faint: #6b6b6b;
+  --nn-accent: #ff4f7b;
+  --nn-ok: #4ade80;
+  --nn-redirect: #facc15;
+  --nn-error: #f87171;
+  --nn-js: #60a5fa;
+  --nn-native: #c084fc;
+  --nn-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --nn-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --nn-bg: #ffffff;
+    --nn-surface: #f9f9f8;
+    --nn-surface-2: #f2f2f1;
+    --nn-border: #e6e6e6;
+    --nn-text: #0a0a0a;
+    --nn-muted: #5e5e5e;
+    --nn-faint: #8a8a8a;
+    --nn-accent: #c2143f;
+    --nn-ok: #15803d;
+    --nn-redirect: #a16207;
+    --nn-error: #b91c1c;
+    --nn-js: #1d4ed8;
+    --nn-native: #7e22ce;
+  }
+}
+
+.nn-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--nn-bg);
+  color: var(--nn-text);
+  font-family: var(--nn-font);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.nn-root * {
+  box-sizing: border-box;
+}
+
+.nn-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+  flex-wrap: wrap;
+}
+
+.nn-toolbar .nn-spacer {
+  flex: 1;
+}
+
+.nn-button {
+  appearance: none;
+  border: 1px solid var(--nn-border);
+  background: var(--nn-surface-2);
+  color: var(--nn-text);
+  padding: 4px 10px;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.nn-button:hover {
+  border-color: var(--nn-muted);
+}
+
+.nn-button.is-active {
+  border-color: var(--nn-accent);
+  color: var(--nn-accent);
+}
+
+.nn-button.is-recording::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--nn-accent);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.nn-input {
+  border: 1px solid var(--nn-border);
+  background: var(--nn-bg);
+  color: var(--nn-text);
+  padding: 4px 8px;
+  font: inherit;
+  min-width: 220px;
+  border-radius: 2px;
+}
+
+.nn-input:focus {
+  outline: none;
+  border-color: var(--nn-accent);
+}
+
+.nn-chips {
+  display: inline-flex;
+  border: 1px solid var(--nn-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.nn-chips .nn-chip {
+  appearance: none;
+  border: 0;
+  border-right: 1px solid var(--nn-border);
+  background: transparent;
+  color: var(--nn-muted);
+  padding: 4px 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nn-chips .nn-chip:last-child {
+  border-right: 0;
+}
+
+.nn-chips .nn-chip.is-active {
+  background: var(--nn-surface-2);
+  color: var(--nn-text);
+}
+
+.nn-status-line {
+  color: var(--nn-muted);
+  white-space: nowrap;
+}
+
+.nn-banner {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+  color: var(--nn-muted);
+}
+
+.nn-banner.is-warning {
+  color: var(--nn-redirect);
+}
+
+.nn-banner code {
+  font-family: var(--nn-mono);
+  color: var(--nn-text);
+}
+
+.nn-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.nn-list {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+}
+
+.nn-list.has-detail {
+  flex: 0 0 55%;
+  border-right: 1px solid var(--nn-border);
+}
+
+.nn-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.nn-table th,
+.nn-table td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--nn-border);
+}
+
+.nn-table th {
+  position: sticky;
+  top: 0;
+  background: var(--nn-surface);
+  color: var(--nn-muted);
+  font-weight: 500;
+  z-index: 1;
+}
+
+.nn-table tbody tr {
+  cursor: pointer;
+}
+
+.nn-table tbody tr:hover {
+  background: var(--nn-surface);
+}
+
+.nn-table tbody tr.is-selected {
+  background: var(--nn-surface-2);
+  box-shadow: inset 2px 0 0 var(--nn-accent);
+}
+
+.nn-table tbody tr.is-error td.nn-col-name,
+.nn-table tbody tr.is-error td.nn-col-status {
+  color: var(--nn-error);
+}
+
+.nn-col-name {
+  width: auto;
+}
+
+.nn-col-method {
+  width: 64px;
+}
+
+.nn-col-status {
+  width: 64px;
+}
+
+.nn-col-origin {
+  width: 92px;
+}
+
+.nn-col-type {
+  width: 72px;
+}
+
+.nn-col-size {
+  width: 76px;
+  text-align: right;
+}
+
+.nn-col-time {
+  width: 76px;
+  text-align: right;
+}
+
+.nn-host {
+  color: var(--nn-faint);
+  margin-left: 6px;
+}
+
+.nn-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-family: var(--nn-mono);
+  border: 1px solid currentColor;
+}
+
+.nn-badge.is-js {
+  color: var(--nn-js);
+}
+
+.nn-badge.is-native {
+  color: var(--nn-native);
+}
+
+.nn-badge.is-unknown {
+  color: var(--nn-faint);
+  border-style: dashed;
+}
+
+.nn-status.is-ok {
+  color: var(--nn-ok);
+}
+
+.nn-status.is-redirect {
+  color: var(--nn-redirect);
+}
+
+.nn-status.is-error {
+  color: var(--nn-error);
+}
+
+.nn-status.is-pending {
+  color: var(--nn-faint);
+}
+
+.nn-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--nn-muted);
+}
+
+.nn-empty h3 {
+  margin: 0 0 8px;
+  color: var(--nn-text);
+  font-weight: 500;
+}
+
+.nn-detail {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nn-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+}
+
+.nn-detail-header .nn-url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--nn-mono);
+}
+
+.nn-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+}
+
+.nn-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--nn-muted);
+  padding: 6px 12px;
+  font: inherit;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.nn-tab.is-active {
+  color: var(--nn-text);
+  border-bottom-color: var(--nn-accent);
+}
+
+.nn-detail-body {
+  flex: 1;
+  overflow: auto;
+  padding: 10px 12px;
+}
+
+.nn-section {
+  margin-bottom: 16px;
+}
+
+.nn-section h4 {
+  margin: 0 0 6px;
+  color: var(--nn-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.nn-kv {
+  display: grid;
+  grid-template-columns: minmax(120px, max-content) 1fr;
+  gap: 2px 12px;
+  font-family: var(--nn-mono);
+  word-break: break-all;
+}
+
+.nn-kv .nn-key {
+  color: var(--nn-muted);
+}
+
+.nn-pre {
+  margin: 0;
+  padding: 8px;
+  background: var(--nn-surface);
+  border: 1px solid var(--nn-border);
+  font-family: var(--nn-mono);
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.nn-note {
+  color: var(--nn-faint);
+  font-style: italic;
+}
+
+.nn-image-preview {
+  max-width: 100%;
+  max-height: 300px;
+  border: 1px solid var(--nn-border);
+  background: var(--nn-surface);
+}
+
+.nn-timing-bar {
+  position: relative;
+  height: 10px;
+  background: var(--nn-surface-2);
+  border: 1px solid var(--nn-border);
+  margin: 6px 0;
+}
+
+.nn-timing-bar span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.nn-timing-bar .is-wait {
+  background: var(--nn-faint);
+}
+
+.nn-timing-bar .is-download {
+  background: var(--nn-accent);
+}

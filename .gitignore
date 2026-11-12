@@ -1,0 +1,35 @@
+# build output
+dist
+build
+.rozenite
+.turbo
+
+# dependencies
+node_modules
+
+# logs / misc
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+*.tsbuildinfo
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+.DS_Store
+coverage
+
+# editors
+.idea
+.vscode
+*.iml
+
+# android
+android/build
+android/.gradle
+android/local.properties
+android/.cxx
+
+# ios
+ios/build
+ios/Pods
+xcuserdata
+DerivedData

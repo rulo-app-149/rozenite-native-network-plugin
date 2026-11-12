@@ -1,0 +1,6 @@
+.turbo
+.rozenite
+android/build
+android/.gradle
+ios/build
+src/**/__tests__
